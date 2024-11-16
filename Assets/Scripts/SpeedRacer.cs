@@ -4,17 +4,35 @@ using UnityEngine;
 
 public class SpeedRacer : MonoBehaviour
 {
-    string carModel = "GTR R35";
-    string engineType = "V6, Twin Turbo";
-    int carWeight = 1609;
-    int yearMade = 2009;
-    float maxAccelaration = 0.98f;
-    bool isCarTypeSedan = false;
-    bool hasFrontEngine = true;
+    
+    public string carMaker;
+    public string carModel = "GTR R35";
+    public string engineType = "V6, Twin Turbo";
+
+    public int carWeight = 1609;
+    public int yearMade = 2009;
+
+    public float maxAccelaration = 0.98f;
+
+    public bool isCarTypeSedan = false;
+    public bool hasFrontEngine = true;
+    
+    public class Fuel
+    {
+        public int fuelLevel;
+        
+        public Fuel(int amount)
+        {
+            fuelLevel = amount;
+        }
+        
+    }
+
+    public Fuel carFuel = new Fuel(100);
 
     void Start()
     {
-        print("This car is " + carModel + " and has the " + engineType + " engine.");
+        print("Maker of the " + carModel + " car is " + carMaker + " and has the " + engineType + " engine.");
         CheckWeight();
         if(yearMade <= 2009){
             print("This car is made in the year " + yearMade + ".");
@@ -30,7 +48,10 @@ public class SpeedRacer : MonoBehaviour
 
     void Update()
     {
-
+        if(Input.GetKeyDown(KeyCode.Space)){
+            ConsumeFuel();
+            CheckFuelLevel();
+        }
     }
 
     void CheckWeight()
@@ -60,4 +81,31 @@ public class SpeedRacer : MonoBehaviour
             return "This car is not a sedan and it doesn't have a front engine.";
         }
     }
+
+    void ConsumeFuel()
+    {
+        carFuel.fuelLevel -= 10;
+    }
+
+    void CheckFuelLevel()
+    {
+        switch(carFuel.fuelLevel)
+        {
+            case 70:
+                print("The fuel amount is nearing 2/3.");
+                break;
+            case 50:
+                print("Fuel level is 1/2.");
+                break;
+            case 10:
+                print("Warning! Fuel level is critically low.");
+                break;
+            default:
+                print("There is nothing to report.");
+                break;
+        }
+    }
 }
+
+
+
